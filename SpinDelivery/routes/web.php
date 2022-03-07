@@ -54,11 +54,13 @@ Route::group(['middleware' => ['ComprobarRol:repartidor']], function () {
     Route::get('/repartos/{pedido}/entregado', [PedidoController::class, 'entregado'])->name('repartidor.entregado');
 });
 Route::group(['middleware' => ['ComprobarRol:restaurante']], function () {
+    Route::get('/restaurantes/del/{restaurante}', [RestauranteController::class, 'destroy'])->name('restaurantes.delete');
     Route::get('/restaurantes/{restaurante}/pedidos', [RestauranteController::class, 'showPedidos'])->name('Restaurante.showPedidos');
     Route::get('/restaurantes/{restaurante}/pedidos/{pedido}/validar', [PedidoController::class, 'validar'])->name('Pedido.validar');
     Route::get('/restaurantes/{restaurante}/pedidos/{pedido}/repartir', [PedidoController::class, 'repartir'])->name('Pedido.repartir');
     Route::get('/restaurantes/listado', [RestauranteController::class, 'listadoRestaurantes'])->name('Restaurante.listado');
     Route::get('/restaurantes/listado/get', [RestauranteController::class, 'getRestaurante'])->name('Restaurante.listado-get');
+    Route::get('/restaurantes/{restaurante}/platos/del/{plato}', [PlatoController::class, 'destroy'])->name('platos.delete');
 });
 
 

@@ -180,13 +180,21 @@
               <div class="box"> 
                 <div> 
                   <div class="img-box"> 
-                    <img src="{{ asset($plato->foto) }}" alt="" /> 
-                  </div> 
+                    <img src="{{ asset($plato->foto) }}" alt="" />
+                  </div>
+                  @guest
+                  @else
+                  @if (Auth::user()->id == $restaurante->user_id && Auth::user()->rol == "administrador")
+                  <a class="nav-link text-warning" href="{{ route('platos.edit', [$restaurante->id , $plato->id]) }}"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:5px;"></i>Editar plato</a>
+                  <a class="nav-link text-danger" href="{{ route('platos.delete', [$restaurante->id , $plato->id]) }}"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:5px;"></i>Eliminar plato</a>
+                  @endif
+                  @endguest
                   <div class="detail-box"> 
                     <h5>{{ $plato->nombre }}</h5> 
                     <p>{{ $plato->descripcion }}</p> 
                     <div class="options"> 
-                      <h6>{{ $plato->precio }}€</h6> 
+                      <h6>{{ $plato->precio }}€</h6>
+                      
                       <a href="{{ route('platos.show', [$plato->restaurante->id, $plato->id]) }}"> 
                         <svg 
                           version="1.1" 
@@ -248,6 +256,9 @@
               </div> 
             </div>
             @endforeach
+            @if (Auth::user()->id == $restaurante->user_id && Auth::user()->rol == "administrador")
+                <a class="nav-link text-dark text-center lead font-weight-bold my-2" style="background-color:lightblue; border-radius:15px;" href="{{ route('platos.create', [$restaurante->id , $plato->id]) }}">Crear Plato</a>
+            @endif
           </div> 
         </div> 
       </div> 

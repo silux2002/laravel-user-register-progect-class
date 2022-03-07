@@ -69,9 +69,7 @@ class PlatoController extends Controller
             $plato->save();
         }
         if($plato->wasRecentlyCreated){
-            return 'creado nuevo';
-        }else{
-            return 'ya existe';
+             return redirect('/restaurantes/' . $restaurante);
         }
         
         
@@ -143,8 +141,9 @@ class PlatoController extends Controller
      * @param  \App\Models\Plato  $plato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Plato $plato)
+    public function destroy(Restaurante $restaurante, Plato $plato)
     {
-        //
+        $plato->delete();
+        return redirect('/restaurantes/' . $restaurante->id);
     }
 }

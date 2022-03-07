@@ -64,9 +64,7 @@ class RestauranteController extends Controller
             'direccion' => $request->direccion,
         ]);
         if($restaurante->wasRecentlyCreated){
-            return 'creado nuevo';
-        }else{
-            return 'ya existe';
+                    return redirect('/restaurantes');
         }
     }
     
@@ -135,6 +133,7 @@ class RestauranteController extends Controller
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'direccion' => $request->direccion,
+                'abierto' => $request->abierto === 'on' ? 1 : 0,
             ]);
             return redirect()->route('restaurantes.show',$restaurante);
     }
@@ -147,8 +146,10 @@ class RestauranteController extends Controller
      */
     public function destroy(Restaurante $restaurante)
     {
-        //
+        $restaurante->delete();
+        return redirect('/restaurantes');
     }
+    
     public function getRestaurante(Request $request)
     {
         $user = Auth::user();

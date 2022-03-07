@@ -7,6 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -81,12 +82,6 @@
                 @if (Auth::user()->rol == "administrador")
                 <li class="nav-item">
                   <a class="nav-link text-danger" href="{{ route('Restaurante.listado') }}"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:5px;"></i>Edita Restaurantes</a>
-                </li>
-                @endif
-                
-                @if (Auth::user()->rol == "restaurante")
-                <li class="nav-item">
-                  <a class="nav-link text-danger" href="{{ route('Restaurante.listado') }}"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:5px;"></i>Edita Tu Restaurante</a>
                 </li>
                 @endif
 
@@ -178,6 +173,36 @@
     </div>
 
     <!-- about section -->
+    @guest
+      @else
+      @if (Auth::user()->rol == "restaurante")
+        <section class="about_section layout_padding">
+          <div class="container">
+            <div class="heading_center">
+              <h2>Restaurantes a su nombre</h2>
+            </div>
+            @foreach ($restaurantes as $restaurante)
+              @if (Auth::user()->id == $restaurante->user_id)
+                <div
+                  class="row my-4 p-2 rounded shadow-sm"
+                  style="background-color: #323b48">
+                  <div class="col">
+                    <div><a class="text-info" href="{{ route('restaurantes.show', $restaurante->id) }}"><h2>{{ $restaurante->nombre }}</h2></a></div>
+                    <div><small>{{ $restaurante->descripcion }}</small></div>
+                    <div class="my-2"><small>{{ $restaurante->direccion }}</small></div>
+                    <div><small>¿Está abierto ahora? {{ $restaurante->abierto === 1 ? "✅" : "❌" }}</small></div>
+                    @csrf
+                    <a class="nav-link text-dark text-center lead font-weight-bold my-2" style="background-color:green; border-radius:15px;" href="{{ route('restaurantes.edit', $restaurante->id )}}">Editar Restaurante</a>
+                    <a class="nav-link text-dark text-center lead font-weight-bold" style="background-color:red; border-radius:15px;" title="Delete Record" href="{{ route('restaurantes.delete', [$restaurante->id] )}}" method="delete" data-confirm="Estas seguro?" >Eliminar Restaurante</a>
+                  </div>
+                </div>
+              @endif
+            @endforeach
+            <a class="nav-link text-dark text-center lead font-weight-bold my-2" style="background-color:lightblue; border-radius:15px;" href="{{ route('restaurantes.create', $restaurante->id )}}">Crear Restaurante</a>
+          </div>
+        </section>
+       @endif
+    @endguest
     <section class="about_section layout_padding">
       <div class="container">
         <div class="heading_container heading_center">
@@ -192,6 +217,8 @@
             <div><small>{{ $restaurante->descripcion }}</small></div>
             <div class="my-2"><small>{{ $restaurante->direccion }}</small></div>
             <div><small>¿Está abierto ahora? {{ $restaurante->abierto === 1 ? "✅" : "❌" }}</small></div>
+            
+            
           </div>
         </div>
         @endforeach

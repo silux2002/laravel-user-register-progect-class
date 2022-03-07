@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Crear Restaurante') }}</div>
+                <div class="card-header">{{ __('Editar Restaurante') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('restaurantes.update',$restaurante) }}">
@@ -33,6 +33,20 @@
                                 <input id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" value="{{$restaurante->descripcion }}"   autocomplete="descripcion" autofocus>
 
                                 @error('descripcion')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label for="abierto" class="col-md-4 col-form-label text-md-end">Estado de Apertura</label>
+
+                            <div class="col-md-6">
+                                <input id="abierto" type="checkbox" class="form-check-label @error('abierto') is-invalid @enderror" name="abierto" autocomplete="abierto" style="margin-top:5px;" @if ($restaurante->abierto) checked @endif >
+
+                                @error('abierto')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
