@@ -1,0 +1,1 @@
+{{ asset($plato->foto) }}
