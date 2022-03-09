@@ -193,7 +193,9 @@
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            
+          </tbody>
         </table>
       </div>
     </section>
@@ -294,16 +296,12 @@
             { data: "nombre", name: "nombre" },
             { data: "descripcion", name: "descripcion" },
             { data: "direccion", name: "direccion" },
-            { data: "abierto", name: "abierto" },
-            {
-              data: "action",
-              name: "action",
-              orderable: true,
-              searchable: true,
-            },
-          ],
+            { data: "abierto", name: "abierto"},
+            {data: "action", name: "action", orderable: true, searchable: true},
+          ], order: [[1, 'asc']]
         });
       });
+      
       //
     </script>
     <script src="{{ asset('js/app.js') }}" defer></script>

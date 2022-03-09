@@ -52,6 +52,7 @@ Route::group(['middleware' => ['ComprobarRol:cliente']], function () {
 Route::group(['middleware' => ['ComprobarRol:repartidor']], function () {
     Route::get('/repartos', [RepartidorController::class, 'showRepartos'])->name('repartidor.showRepartos');
     Route::get('/repartos/{pedido}/entregado', [PedidoController::class, 'entregado'])->name('repartidor.entregado');
+    Route::get('/repartos/cambiarestado', [RepartidorController::class, 'cambiarestado'])->name('repartidor.cambiarestado');
 });
 Route::group(['middleware' => ['ComprobarRol:restaurante']], function () {
     Route::get('/restaurantes/del/{restaurante}', [RestauranteController::class, 'destroy'])->name('restaurantes.delete');

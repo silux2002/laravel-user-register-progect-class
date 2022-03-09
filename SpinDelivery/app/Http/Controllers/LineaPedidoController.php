@@ -57,9 +57,10 @@ class LineaPedidoController extends Controller
         $pedido = (new Pedido)->firstOrCreate([
             'user_id' => auth()->user()->id,
             'validado' => 0,
+            'restaurante_id' => $plato->restaurante_id,
         ], [
             'precio' => 0,
-            'restaurante_id' => $plato->restaurante_id,
+            
         ]);
         
         $lineaPedido = (new LineaPedido)->firstOrCreate([

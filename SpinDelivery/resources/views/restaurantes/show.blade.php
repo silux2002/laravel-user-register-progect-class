@@ -74,7 +74,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{{ route('restaurantes.index') }}"><i class="fa-solid fa-magnifying-glass" style="margin-right:5px;"></i>Restaurantes</a>
                 </li>
-                 @if (Auth::user()->rol == "restaurante")
+                 @if (Auth::user()->id == $restaurante->user_id || Auth::user()->rol == "administrador")
                   <li class="nav-item">
                     <a class="nav-link text-info" href="{{ route('Restaurante.showPedidos', $restaurante->id) }}"><i class="fa-solid fa-rectangle-list" style="margin-right:5px;"></i>Tu comanda</a>
                   </li>
@@ -184,7 +184,7 @@
                   </div>
                   @guest
                   @else
-                  @if (Auth::user()->id == $restaurante->user_id && Auth::user()->rol == "administrador")
+                  @if (Auth::user()->id == $restaurante->user_id || Auth::user()->rol == "administrador")
                   <a class="nav-link text-warning" href="{{ route('platos.edit', [$restaurante->id , $plato->id]) }}"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:5px;"></i>Editar plato</a>
                   <a class="nav-link text-danger" href="{{ route('platos.delete', [$restaurante->id , $plato->id]) }}"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:5px;"></i>Eliminar plato</a>
                   @endif
@@ -256,7 +256,7 @@
               </div> 
             </div>
             @endforeach
-            @if (Auth::user()->id == $restaurante->user_id && Auth::user()->rol == "administrador")
+            @if (Auth::user()->id == $restaurante->user_id || Auth::user()->rol == "administrador")
                 <a class="nav-link text-dark text-center lead font-weight-bold my-2" style="background-color:lightblue; border-radius:15px;" href="{{ route('platos.create', [$restaurante->id , $plato->id]) }}">Crear Plato</a>
             @endif
           </div> 

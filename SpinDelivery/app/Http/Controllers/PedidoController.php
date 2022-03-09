@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePedidoRequest;
 use App\Models\Pedido;
 use App\Models\Restaurante;
 use App\Models\User;
+use Carbon\Carbon;
 use Auth;
 
 class PedidoController extends Controller
@@ -23,9 +24,9 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        $pedido = Pedido::where('user_id', auth()->user()->id)->first();
+        $pedidos = Pedido::where('user_id', auth()->user()->id)->orderBy('id','DESC')->get();
         
-        return view('pedidos.show', compact('pedido'));
+        return view('pedidos.show', compact('pedidos'));
     }
 
     /**
@@ -144,9 +145,13 @@ class PedidoController extends Controller
         return view('cliente.pedido',compact('pedido'));
     }
     public function entregado(Pedido $pedido){
+        
         $pedido->estado = 'Entregado';
         $pedido->save();
-        return redirect()->route('Restaurante.showPedidos', $restaurante);
+        $user = Auth::user();
+        $user->estado = 'libre';
+        $user->save();
+        return redirect()->route('repartidor.showRepartos');
     }
     
 }

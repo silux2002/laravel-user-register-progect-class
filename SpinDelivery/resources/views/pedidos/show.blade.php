@@ -171,6 +171,11 @@
         <div class="heading_container heading_center">
           <h2>Tu pedido</h2>
         </div>
+        @forelse ($pedidos as $pedido)
+         <div class="text-left">
+          Nº pedido:
+          <span style="color: #ffbe33">{{ $pedido->id }}</span>
+        </div>
         @foreach ($pedido->lineas as $linea)
         <div
           class="row my-4 p-2 rounded shadow-sm"
@@ -198,10 +203,25 @@
           Estado del pedido:
           <span style="color: #ffbe33">{{ $pedido->estado }}</span>
         </div>
+        @if( $pedido->llegada_estimada != null)
+        <div class="text-left">
+          Fecha estimada de llegada:
+          <span style="color: #ffbe33">{{ $pedido->llegada_estimada }}</span>
+        </div>
+        @endif
         <div class="text-right">
           Subtotal del pedido:
           <span style="color: #ffbe33">{{ $pedido->precio }}€</span>
         </div>
+        <hr>
+        @empty
+        <div
+          class="row my-4 p-2 rounded shadow-sm"
+          style="background-color: #323b48"
+        >
+          <div class="col-12"> La cesta esta vacia ¿quieres engordar?</div>
+        </div>
+        @endforelse
         
       </div>
     </section>

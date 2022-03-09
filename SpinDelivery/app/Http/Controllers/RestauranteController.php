@@ -96,7 +96,8 @@ class RestauranteController extends Controller
             Auth::logout();
             return redirect()->route('login');
         }
-        $pedidos = Pedido::where('restaurante_id', $restaurante->id)->get();
+        $pedidos = Pedido::where('restaurante_id', $restaurante->id)->where('estado', '!=', 'Entregado')->get();
+        //dd($pedidos);
         if($restaurante->user_id == auth()->user()->id || auth()->user()->rol == 'administrador'){
             return view('restaurantes.pedidos.index', compact('pedidos', 'restaurante'));
         }
@@ -169,7 +170,7 @@ class RestauranteController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $actionBtn = '<a href="'.route('restaurantes.edit', $row->id).'" class="edit btn btn-success btn-sm tabla">Edit</a> <a href="'.route('restaurantes.delete', $row->id).'" class="delete btn btn-danger btn-sm tabla">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
